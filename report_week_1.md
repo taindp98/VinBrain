@@ -18,7 +18,11 @@ The Dialogue Manager consists the following two components:
 	* Policy Learning (Reinforcement Learning Agent)
 
 ### Finite state machine
-They are especially good when the number of things a user can say are limited.
+They are especially good when the number of things a user can say are limited. 
+
+The FSM can change from one state to another in response to some external inputs; the change from one state to another is called a transition. A FSM is defined by a list of its states, its initial state, and the conditions for each transition.
+
+External inputs are user inputs, typically arrive to the FSM in the form of parsed intent and slot values. External inputs are also called triggers or events in FSM parlance.
 
 ### Deep Q-Learning
 
@@ -50,4 +54,9 @@ https://arxiv.org/pdf/1508.01745.pdf
 
 http://www.macs.hw.ac.uk/InteractionLab/E2E/final_papers/E2E-ZHAW.pdf
 
+https://solyarisoftware.medium.com/dialoghi-come-macchine-a-stati-41bb748fd5b0
 
+https://medium.com/ai2-blog/alexafsm-a-finite-state-machine-python-library-for-building-complex-alexa-skills-61c3af5a299d
+
+https://github.com/allenai/alexafsm
+http://davekuhlman.org/fsm-transitions-python.html
