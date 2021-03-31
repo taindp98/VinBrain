@@ -59,4 +59,5 @@ https://solyarisoftware.medium.com/dialoghi-come-macchine-a-stati-41bb748fd5b0
 https://medium.com/ai2-blog/alexafsm-a-finite-state-machine-python-library-for-building-complex-alexa-skills-61c3af5a299d
 
 https://github.com/allenai/alexafsm
+
 http://davekuhlman.org/fsm-transitions-python.html
