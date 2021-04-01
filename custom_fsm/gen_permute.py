@@ -11,4 +11,23 @@ for key in list(map_order_entity.keys()):
 
         dict_permute[key] = list_permute_fix
 
-print(dict_permute)
+# print(dict_permute)
+
+dict_action_available = {}
+
+for key in list(dict_permute.keys()):
+    permute_per_slot = dict_permute[key]
+
+    list_action_per_slot = []
+
+    for sublist_permute in permute_per_slot:
+
+        for idx, item in enumerate(sublist_permute):
+            if idx < len(sublist_permute) - 1:
+                action = str(item) + '_to_' + str(sublist_permute[idx+1])
+
+                list_action_per_slot.append(action)
+    
+    dict_action_available[key] = list_action_per_slot
+
+print(dict_action_available)
