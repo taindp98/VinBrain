@@ -7,7 +7,7 @@ for key in list(map_order_entity.keys()):
     if key != 'all_slot':
         list_slot = map_order_entity[key]
         list_permute = list(itertools.permutations(list_slot))
-        list_permute_fix = [[key] + list(item) for item in list_permute]
+        list_permute_fix = [['initial',key] + list(item) for item in list_permute]
 
         dict_permute[key] = list_permute_fix
 
@@ -23,15 +23,14 @@ for key in list(dict_permute.keys()):
     for permute_case in permute_per_slot:
 
         for idx, item in enumerate(permute_case):
-            
-            if idx < len(permute_case) - 1:
+            if idx < len(permute_case) - 2:
                 dict_transition = {}
-                dict_transition['trigger'] = 'into_' + str(permute_case[idx+1])
+                dict_transition['trigger'] = str(permute_case[idx+1])
                 dict_transition['source'] = item
-                dict_transition['dest'] = permute_case[idx+1]
-
+                dict_transition['dest'] = permute_case[idx+2]
                 if dict_transition not in list_transition:
                     list_transition.append(dict_transition)
+
     
 
-print(list_transition)
+print(list_transition[0:5])

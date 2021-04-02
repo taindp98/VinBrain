@@ -1,6 +1,7 @@
 from transitions import Machine
 import random
 from map_fsm import map_order_entity
+from gen_permute import list_transition
 
 class CustomFSM(object):
 
@@ -18,7 +19,8 @@ class CustomFSM(object):
         self.preOrders = {}
 
         # Initialize states for FSM
-        self.states = ['Initial']
+        self.states = ['initial']
+        # self.states = []
 
         self.currState = None
 
@@ -51,46 +53,79 @@ class CustomFSM(object):
                 self.preOrders[key] = []
 
         # Initialize the state machine
-        self.machine = Machine(model=self, states=self.states, initial='Initial')
-
-        for state in self.states:
-            self.machine.add_transition(trigger='into_' + state, source='*', dest=state, after='switchIntocurrState')
-
-        print('='*50)
-        print('transition')
-        print(self.machine.add_transition)
+        self.machine = Machine(model=self, states=self.states, transitions = list_transition ,initial='initial')
         
-    def switchIntocurrState(self):
-        currState = self.state
+        # for state in self.states:
+            # self.machine.add_transition(trigger='into_' + state, source='*', dest=state, after='switchIntocurrState')
 
-        # Check if this state havent met before
-        if currState in self.visited[currState]:
+        # print('='*50)
+        # print('transition')
+        # print(self.machine.add_transition)
+        
+    # def switchIntocurrState(self):
+    #     currState = self.state
+        
+    #     print('currState',currState)
+    #     # Check if this state havent met before
+    #     if currState in self.visited[currState]:
 
-            #remove state from its own Visited list as  allow termination at this
-            self.visited[currState].remove(currState)
-        # Remove this state from Visited lists where it present     
-        for preOrder in self.preOrders[currState]:
-            # Only removing when that PreOrder state is able to terminate (not have own state in VISITED list)
-            if preOrder not in self.visited[preOrder]:
-                self.visited[preOrder].remove(currState)
-                self.preOrders[currState].remove(preOrder)
-            # If that Pre-Order State's Visited List is null, terminate at that state
-            if len(self.visited[preOrder]) == 0:
-                print("Terminate!")
+    #         #remove state from its own Visited list as  allow termination at this
+    #         self.visited[currState].remove(currState)
+    #     # Remove this state from Visited lists where it present     
+    #     for preOrder in self.preOrders[currState]:
+    #         # Only removing when that PreOrder state is able to terminate (not have own state in VISITED list)
+    #         if preOrder not in self.visited[preOrder]:
+    #             self.visited[preOrder].remove(currState)
+    #             self.preOrders[currState].remove(preOrder)
+    #         # If that Pre-Order State's Visited List is null, terminate at that state
+    #         if len(self.visited[preOrder]) == 0:
+    #             print("Terminate!")
 
 
 
+
+
+# allState = ['major_name','type_edu','subject_group','year','case','point','career','subject','tuition','major_code','criteria','object','register']
+
+state1 = 'major_name'
 testFSM = CustomFSM()
 
-allState = ['major_name','type_edu','subject_group','year','case','point','career','subject','tuition','major_code','criteria','object','register']
+def recursive_find_best_way(state,count):
+    attr = str(state)
+    
+    prev_state = state.copy()
 
-testcase1 = ['major_name','point', 'major_code']
+    global map_state_per_key
+    
+    if count == 0:
+        map_state_per_key = [state] + map_order_entity[state]
 
-for state_to_switch in testcase1:
-    attr = 'into_' + state_to_switch
-    func = getattr(testFSM, attr)
+        print('map',map_state_per_key)
+
+    if state in map_state_per_key:
+
+        map_state_per_key.remove(state)
+
+    if len(map_state_per_key) == 0:
+        print('sucess')
+        return True
+    # print('current_state',testFSM.state)
+
+    testFSM.state = prev_state
+
+    func = getattr(testFSM,attr)
     func()
-    print(testFSM.state)
 
+    next_state = testFSM.state
+    
+    print('next_state',next_state)
+    count += 1
 
+    if count == 5:
+        return True
+    recursive_find_best_way(next_state,count)
+    
+
+count = 0
+recursive_find_best_way(state1,count)
 
