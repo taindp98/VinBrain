@@ -56,6 +56,9 @@ class CustomFSM(object):
         for state in self.states:
             self.machine.add_transition(trigger='into_' + state, source='*', dest=state, after='switchIntocurrState')
 
+        print('='*50)
+        print('transition')
+        print(self.machine.add_transition)
         
     def switchIntocurrState(self):
         currState = self.state

@@ -13,21 +13,25 @@ for key in list(map_order_entity.keys()):
 
 # print(dict_permute)
 
-dict_action_available = {}
+list_transition = []
 
 for key in list(dict_permute.keys()):
     permute_per_slot = dict_permute[key]
 
     list_action_per_slot = []
 
-    for sublist_permute in permute_per_slot:
+    for permute_case in permute_per_slot:
 
-        for idx, item in enumerate(sublist_permute):
-            if idx < len(sublist_permute) - 1:
-                action = str(item) + '_to_' + str(sublist_permute[idx+1])
+        for idx, item in enumerate(permute_case):
+            
+            if idx < len(permute_case) - 1:
+                dict_transition = {}
+                dict_transition['trigger'] = 'into_' + str(permute_case[idx+1])
+                dict_transition['source'] = item
+                dict_transition['dest'] = permute_case[idx+1]
 
-                list_action_per_slot.append(action)
+                if dict_transition not in list_transition:
+                    list_transition.append(dict_transition)
     
-    dict_action_available[key] = list_action_per_slot
 
-print(dict_action_available)
+print(list_transition)
