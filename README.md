@@ -5,5 +5,5 @@ Nguyen Duong Phuc Tai
 05/04/2021 - 09/04/2021
 
 # Task
-    * Exploring knowledge-based from dataset
-    * Present knowledge-based
+* Exploring knowledge-based from dataset
+* Present knowledge-based
