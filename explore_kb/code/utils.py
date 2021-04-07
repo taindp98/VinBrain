@@ -74,3 +74,31 @@ def convert_constraint(constraints):
         regex_constraint_dict = {"$and":list_and_out}
 
     return regex_constraint_dict
+
+def gen_user_action(mess):
+    user_action = {}
+
+    extract_entity = mess.split(' ')
+
+    for e in extract_entity:
+        if '_' in e:
+            inform_entity = e
+
+    if mess.endswith('?'):
+        user_action['intent'] = 'request'
+
+        if inform_entity:
+            user_action['inform_slots'] = {'Symptom':[inform_entity]}
+        else:
+            user_action['inform_slots'] = {}
+
+        user_action['request_slots'] = {'Disease':'unk'}
+    else:
+        user_action['intent'] = 'inform'
+
+        if inform_entity:
+            user_action['inform_slots'] = {'Symptom':[inform_entity]}
+
+        user_action['request_slots'] = {}
+
+    return user_action

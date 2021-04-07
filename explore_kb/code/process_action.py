@@ -3,7 +3,7 @@ import re
 import pymongo
 from utils import convert_constraint,check_available,check_pattern,freq_sympt_appear
 
-def update_agent_action(user_action,col,done):
+def update_agent_action(user_action,col,done=False):
 
     global agent_action
     """
@@ -33,6 +33,7 @@ def update_agent_action(user_action,col,done):
     amount_record_match = len(list_record_query)
 
     if amount_record_match == 1:
+        agent_action = {}
         agent_action['intent'] = 'match_found'
                 
         _PLACE_HOLDER = list_record_query[0]['Disease']
@@ -68,10 +69,11 @@ def update_agent_action(user_action,col,done):
     if last_sympt_user_inform not in list(dict_sympt_correct_name_appear.keys()):
         list_sympt_suggest = list(dict_sympt_correct_name_appear.keys())
     else:
-        print('vote appear',dict_all_sympt_appear)
+        # print('='*50)
+        # print('vote appear',dict_all_sympt_appear)
         list_sympt_query = list(dict_all_sympt_appear.keys())
         for item in list_sympt_query:
-            if item not in list_sympt_user_inform:
+            if item not in list_sympt_user_inform and dict_all_sympt_appear[item] < amount_record_match:
                 list_sympt_suggest.append(item)
 
 
@@ -132,14 +134,19 @@ def update_agent_action(user_action,col,done):
 
     return agent_action,amount_record_match
 
+# def update_user_action(user_action,agent_action):
 def update_user_action(user_action,agent_action):
 
     """
+
+    ONLY USE SIMULATE
+
     param:
-        user's action
+        user's action new
         agent's action
 
-        assumpt that user willing response correct all action from agent
+        # HAPPY CASE
+        <--assumpt that user willing response correct all action from agent-->
 
     return:
         user's action
