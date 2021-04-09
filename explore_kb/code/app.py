@@ -5,58 +5,73 @@ from flask_cors import CORS
 
 import os
 from process_action import update_agent_action
-# from mongoengine import connect
+from utils import gen_user_action
+from state_tracker import StateTracker
+
+from pattern_response import AGENT_RESPONSE
 
 app = Flask(__name__)
 CORS(app)
 
-os.environ["MONGOLAB_URI"] = 'mongodb://localhost:27017'
+# os.environ["MONGOLAB_URI"] = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(os.environ.get('MONGOLAB_URI'))
 database = client.vinbrain
 col_db = database.disease
 
-@app.route('/api/convers-manager', methods=['POST'])
-def post_api_cse_assistant():
+tracker = StateTracker(col_db)
+
+@app.route('/api/disease', methods=['POST'])
+def post_api_disease():
     input_data = request.json
 
     if "message" not in input_data.keys():
         return msg(400, "Message cannot be None")
     else:
         message = input_data["message"]
-    # print("-------------------------message")
-    # print(message)
-    # if "state_tracker_id" not in input_data.keys():
-    #     state_tracker_id = get_new_id()
-    # else:
-    #     state_tracker_id = input_data["state_tracker_id"]
-    # # print('StateTracker_Container',StateTracker_Container)
-    # K.clear_session()
-    # current_informs = 'null'
-    # agent_message , agent_action = process_conversation_POST(state_tracker_id, message)
 
-    
+    ## gen user's action
+    tracker.reset_new_round()
+    # print(tracker.tracker_user_action)
+    # print('='*50)
+    user_action = tracker.gen_user_action(message)
 
-    agent_action,amount_record_match = update_agent_action(user_action,col_db)
+    # print("user_action",user_action)
+    if user_action['intent'] == 'request':
+        tracker.reset_tracker_user_action()
 
+    # print("tracker",tracker.tracker_user_action)
+    # print(user_action)
+    # print('='*50)
+    ## update user's action
+    tracker.update_user_action(user_action)
 
-    if agent_action['intent'] in ["match_found","inform"]:
-        current_informs = StateTracker_Container[state_tracker_id][0].current_informs
+    ## update agent's action
+    agent_action,amount_record_match = tracker.update_agent_action()
+
+    ## natural language generation
+    if agent_action['intent'] == 'inform':
+        current_informs = agent_action['inform_slots']['Symptom'][0]
+        agent_message = AGENT_RESPONSE[agent_action['intent']].replace('*SUGGEST_SLOT*',current_informs)
+
+    elif agent_action['intent'] == 'match_found':
+        current_informs = agent_action['inform_slots']['Disease'][0]
+        agent_message = AGENT_RESPONSE[agent_action['intent']].replace('*MATCH_FOUND_SLOT*',current_informs)
+    else:
+        agent_message = AGENT_RESPONSE[agent_action['intent']]
+
+    if agent_action['intent'] == 'match_found' or agent_action['intent'] == 'done':
+        tracker.reset_tracker_user_action()
 
     res_dict = {}
     res_dict["code"] = 200
-    res_dict["message"] = agent_message
-    res_dict["state_tracker_id"] = state_tracker_id
 
     res_dict['agent_action'] = agent_action
-    res_dict['current_informs'] = current_informs
 
-    print('======================')
-    print('current_informs',current_informs)
-    # print(res_dict)
-    # return jsonify({"code": 200, "message": agent_message,"state_tracker_id":state_tracker_id,"agent_action":agent_action,"current_informs":current_informs})
+    res_dict["message"] = agent_message
+    
     return jsonify(res_dict)
 
 if __name__ == '__main__':
     # app.run()
-    app.run(host='0.0.0.0',port=6969,debug=True)
+    app.run(host='0.0.0.0',port=12345,debug=True)
 

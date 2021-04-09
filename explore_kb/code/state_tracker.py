@@ -1,5 +1,6 @@
 import re
 import pymongo
+import random
 from utils import convert_constraint,check_available,check_pattern,freq_sympt_appear
 
 class StateTracker:
@@ -22,6 +23,22 @@ class StateTracker:
         self.round_num = 0
 
         self.current_request_slots = []
+
+        self.inform_entity = None
+    
+    def reset_new_round(self):
+        self.inform_entity = None
+        self.agent_action = {}
+    
+    def reset_tracker_user_action(self):
+        self.tracker_user_action = {}
+
+        self.tracker_user_action['inform_slots'] = {}
+        self.tracker_user_action['inform_slots']['Symptom'] = []
+
+        self.tracker_user_action['request_slots'] = {}
+        self.tracker_user_action['request_slots']['Disease'] = None
+
     def update_agent_action(self,done=False):
 
         # global agent_action
@@ -56,6 +73,17 @@ class StateTracker:
             self.agent_action['intent'] = 'match_found'
                     
             _PLACE_HOLDER = list_record_query[0]['Disease']
+            
+            self.agent_action['inform_slots'] = {'Disease' : [_PLACE_HOLDER]}
+            self.agent_action['request_slots'] = {}
+
+            return self.agent_action,self.amount_record_match
+
+        elif self.amount_record_match == 0:
+
+            self.agent_action['intent'] = 'done'
+                    
+            _PLACE_HOLDER = 'no_match_found'
             
             self.agent_action['inform_slots'] = {'Disease' : [_PLACE_HOLDER]}
             self.agent_action['request_slots'] = {}
@@ -116,8 +144,11 @@ class StateTracker:
 
         """
         # agent_action = {}
+        
+        r = random.randint(0,1)
 
-        if list_sympt_suggest:
+        if r == 0:
+            # if list_sympt_suggest:
             self.agent_action['intent'] = 'inform'
                     
             _PLACE_HOLDER = list_sympt_suggest.pop(0)
@@ -153,6 +184,34 @@ class StateTracker:
         return self.agent_action, self.amount_record_match
 
     # def update_user_action(user_action,agent_action):
+    def gen_user_action(self,mess):
+        user_action = {}
+
+        extract_entity = mess.split(' ')
+
+        # for e in extract_entity:
+            # if '_' in e:
+        self.inform_entity = extract_entity[0]
+
+        if mess.endswith('?'):
+            user_action['intent'] = 'request'
+
+            if self.inform_entity:
+                user_action['inform_slots'] = {'Symptom':[self.inform_entity]}
+            else:
+                user_action['inform_slots'] = {}
+
+            user_action['request_slots'] = {'Disease':'unk'}
+        else:
+            user_action['intent'] = 'inform'
+
+            if self.inform_entity:
+                user_action['inform_slots'] = {'Symptom':[self.inform_entity]}
+
+            user_action['request_slots'] = {}
+
+        return user_action
+
     def update_user_action(self,user_action):
 
         """

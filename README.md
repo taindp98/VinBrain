@@ -5,5 +5,7 @@ Nguyen Duong Phuc Tai
 05/04/2021 - 09/04/2021
 
 # Task
-* Exploring knowledge-based from dataset
-* Present knowledge-based
+* Exploring Diseases dataset
+* Implement heuristic rule
+* Deploy UI Chatbot
+* Present

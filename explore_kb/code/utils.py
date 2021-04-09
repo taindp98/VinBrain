@@ -78,6 +78,8 @@ def convert_constraint(constraints):
 def gen_user_action(mess):
     user_action = {}
 
+    # global inform_entity
+
     extract_entity = mess.split(' ')
 
     for e in extract_entity:

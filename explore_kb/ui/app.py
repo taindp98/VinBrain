@@ -13,11 +13,11 @@ def home():
 @app.route("/get")
 def get_bot_response():
     userText = request.args.get('msg')
-    api_url = 'http://0.0.0.0:6969/api/convers-manager'
-    # api_url = 'https://chatbot-hcmut.herokuapp.com/api/convers-manager'
+    api_url = 'http://0.0.0.0:12345/api/disease'
+
     input_data = {}
     input_data['message'] = str(userText)
-    input_data['state_tracker_id'] = '1011'
+
     r = requests.post(url=api_url, json=input_data)
     chatbot_respose = r.json()
     mess_response = chatbot_respose['message'].replace('\n', r'').replace(r'"',r'')
