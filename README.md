@@ -5,5 +5,4 @@ Nguyen Duong Phuc Tai
 12/04/2021 - 17/04/2021
 
 # Task
-* Survey NLG
-* Reproduce SC-LSTM
+* Define bot-script
