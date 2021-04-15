@@ -7,7 +7,7 @@ import json
 from botbuilder.core import ActivityHandler, TurnContext
 from botbuilder.schema import ChannelAccount
 import requests
-from card import create_audio_card
+# from card import create_audio_card
 from botbuilder.schema import AudioCard,AttachmentLayoutTypes
 from botbuilder.core import MessageFactory
 
