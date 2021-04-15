@@ -71,7 +71,7 @@ async def messages(req: Request) -> Response:
     activity = Activity().deserialize(body)
 
 
-    print(activity)
+    # print(activity)
 
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
