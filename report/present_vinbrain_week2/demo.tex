@@ -27,47 +27,60 @@
 
 \maketitle
 
-\begin{frame}{Introduce Task Dialogue Systems}
-\section{Characteristics}
-A task-oriented dialogue system is developed to perform a clearly defined task. Usually, the task involves finding information within a database and returning it to the user, performing an action, or retrieving information from its users.
+\begin{frame}{Abstract}
+	\section{Task-Oriented Dialogue Systems}
+	\begin{itemize}
+		\item Help users achieve their specific goals.
+		\item User forgets some information.
+		\item Focus on understanding users, tracking states, and
+		generating next actions.
+		\item Minimize the number of turns: fewer turns the better.
+	\end{itemize}
+	
 \end{frame}
 
-\begin{frame}{Task Dialogue Systems}
-\section{Technologies}
-Usually, the user’s input is processed by a natural language understanding (NLU) unit, which extracts the slots and their values from the utterance and identifies corresponding the dialogue act. This information is passed to the dialogue state tracker (DST), which infers the current state of the dialogue. Finally the output of the dialogue manager is passed to a natural language generation (NLG) component.
-\end{frame}
 
-\begin{frame}{Introduce Task Dialogue Systems}
-\section{Dialogue Management (DM)}
+%\begin{frame}{Introduce Task Dialogue Systems}
+%\section{Characteristics}
+%A task-oriented dialogue system is developed to perform a clearly defined task. %Usually, the task involves finding information within a database and returning it %to the user, performing an action, or retrieving information from its users.
+%\end{frame}
 
-The DM could be connected to some external Knowledge Base (KB) or Data Base (DB), such that it can produce more meaningful answers.
+%\begin{frame}{Task Dialogue Systems}
+%\section{Technologies}
+%Usually, the user’s input is processed by a natural language understanding (NLU) %unit, which extracts the slots and their values from the utterance and identifies %corresponding the dialogue act. This information is passed to the dialogue state %tracker (DST), which infers the current state of the dialogue. Finally the output %of the dialogue manager is passed to a natural language generation (NLG) component.
+%\end{frame}
 
-The Dialogue Manager consists the following two components: 
-\begin{itemize}
-\item The Dialogue State Tracker 
-\item Policy Learning
-\end{itemize}
-\end{frame}
+%\begin{frame}{Introduce Task Dialogue Systems}
+%\section{Dialogue Management (DM)}
 
-\begin{frame}{Introduce Task Dialogue Systems}
-\section{Approach Dialogue Management}
-\begin{itemize}
-\item Rule-based: Finite state machine 
-\item Learning-based: Deep Q-Learning
-\end{itemize}
-\end{frame}
+%The DM could be connected to some external Knowledge Base (KB) or Data Base (DB), such that it can produce more meaningful answers.
 
-\begin{frame}{Introduce Task Dialogue Systems}
-\section{Evaluation}
-Two main aspects are evaluated, which have been shown to define the quality of the dialogue:
-\begin{itemize}
-    \item Task-success
-    \item Dialogue efficiency
-\end{itemize}
+%The Dialogue Manager consists the following two components: 
+%\begin{itemize}
+%\item The Dialogue State Tracker 
+%\item Policy Learning
+%\end{itemize}
+%\end{frame}
 
-\end{frame}
+%\begin{frame}{Introduce Task Dialogue Systems}
+%\section{Approach Dialogue Management}
+%\begin{itemize}
+%\item Rule-based: Finite state machine 
+%\item Learning-based: Deep Q-Learning
+%\end{itemize}
+%\end{frame}
 
-\begin{frame}{Methods}
+%\begin{frame}{Introduce Task Dialogue Systems}
+%\section{Evaluation}
+%Two main aspects are evaluated, which have been shown to define the quality of the %dialogue:
+%\begin{itemize}
+%    \item Task-success
+%    \item Dialogue efficiency
+%\end{itemize}
+%
+%\end{frame}
+
+\begin{frame}{Experiments}
 \section{Diseases Dataset}
 A dataset to provide the students a source to create a healthcare related system.
 
@@ -80,17 +93,17 @@ A dataset to provide the students a source to create a healthcare related system
 
 \end{frame}
 
-\begin{frame}{Methods}
+\begin{frame}{Experiments}
     \section{Insight}
-    Investigate the correlation between each other diseases over the symptoms.
     \begin{itemize}
-    \item Construct the chatbot script (usecase)
-    \item Avoid waste of time to query KB/DB
-    \item Define semantic frame for response task
+    	\item Dataset has 4920 rows, but it has 41 distinct diseases.
+    	\item Synthesizing from multiple sources, symptoms are overlap.
     \end{itemize}
+	$\rightarrow$ Re-architecting dataset
 \end{frame}
 
-\begin{frame}{Methods}
+
+\begin{frame}{Experiments}
     \section{Database}
     \begin{figure}[H]
     \centering
@@ -100,41 +113,38 @@ A dataset to provide the students a source to create a healthcare related system
     \end{figure}
 \end{frame}
 
-\begin{frame}{Methods}
-    \section{Dialogue tracking}
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=2cm, angle=90]{image/flow_dm.png}
-    \caption{Flow dialogue management}
-    \label{fig:flow_dm}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Methods}
-    \section{Agent's action}
-    \begin{enumerate}
-        \item Inform \& Request: Randomly, amount of records greater than one.
-        \item Match found: Only one record satisfy user's constraints.
-        \item Done: End conversation if cannot found disease.
-        
-    \end{enumerate}
+\begin{frame}{Experiments}
+    \section{Heuristic}
+    \begin{center}
+    	\href{https://1drv.ms/u/s!AvgPPwEWTrewcyU0vohmLsytm_4?e=tFHl7o}{Heuristic Search Method}
+   	\end{center}
+	
 \end{frame}
 
 \begin{frame}{Experiments}
-    \section{API}
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=10cm]{image/call_api.png}
-    \caption{API}
-    \label{fig:api}
-    \end{figure}
+    \section{Agent's action}
+    \begin{enumerate}
+        \item Inform \& Request: Amount of records greater than one.
+        \item Match found: Only one record satisfy user's constraints.
+        \item Done: End conversation if cannot found disease.
+    \end{enumerate}
 \end{frame}
+
+%\begin{frame}{Experiments}
+%    \section{Deploy API}
+%    \begin{figure}[H]
+%    \centering
+%    \includegraphics[width=10cm]{image/call_api.png}
+%    \caption{API}
+%    \label{fig:api}
+%    \end{figure}
+%\end{frame}
 
 \begin{frame}{Experiments}
     \section{Demo}
     \begin{figure}[H]
     \centering
-    \includegraphics[width=7cm]{image/demo_smart_assistant.png}
+    \includegraphics[width=7cm]{image/demo_ui.png}
     \caption{Demo conversation}
     \label{fig:demo}
     \end{figure}

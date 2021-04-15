@@ -1,0 +1,7 @@
+\beamer@sectionintoc {1}{Task-Oriented Dialogue Systems}{2}{0}{1}
+\beamer@sectionintoc {2}{Diseases Dataset}{3}{0}{2}
+\beamer@sectionintoc {3}{Insight}{4}{0}{3}
+\beamer@sectionintoc {4}{Database}{5}{0}{4}
+\beamer@sectionintoc {5}{Heuristic}{6}{0}{5}
+\beamer@sectionintoc {6}{Agent's action}{7}{0}{6}
+\beamer@sectionintoc {7}{Demo}{8}{0}{7}
