@@ -27,18 +27,28 @@
 \headcommand {\beamer@framepages {6}{6}}
 \headcommand {\beamer@sectionpages {1}{6}}
 \headcommand {\beamer@subsectionpages {1}{6}}
-\headcommand {\sectionentry {6}{Agent's action}{7}{Agent's action}{0}}
+\headcommand {\sectionentry {6}{Agent's Action}{7}{Agent's Action}{0}}
 \headcommand {\slideentry {6}{0}{0}{7/7}{}{0}}
 \headcommand {\beamer@framepages {7}{7}}
 \headcommand {\beamer@sectionpages {1}{7}}
 \headcommand {\beamer@subsectionpages {1}{7}}
-\headcommand {\sectionentry {7}{Demo}{8}{Demo}{0}}
+\headcommand {\sectionentry {7}{Conversation}{8}{Conversation}{0}}
 \headcommand {\slideentry {7}{0}{0}{8/8}{}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\slideentry {7}{0}{1}{9/9}{}{0}}
+\headcommand {\beamer@sectionpages {1}{8}}
+\headcommand {\beamer@subsectionpages {1}{8}}
+\headcommand {\sectionentry {8}{User's Semantic Frame}{9}{User's Semantic Frame}{0}}
+\headcommand {\slideentry {8}{0}{0}{9/9}{}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\beamer@partpages {1}{9}}
-\headcommand {\beamer@subsectionpages {1}{9}}
 \headcommand {\beamer@sectionpages {1}{9}}
-\headcommand {\beamer@documentpages {9}}
-\headcommand {\gdef \inserttotalframenumber {8}}
+\headcommand {\beamer@subsectionpages {1}{9}}
+\headcommand {\sectionentry {9}{Ranking Symptoms}{10}{Ranking Symptoms}{0}}
+\headcommand {\slideentry {9}{0}{0}{10/10}{}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\slideentry {9}{0}{1}{11/11}{}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\beamer@partpages {1}{11}}
+\headcommand {\beamer@subsectionpages {1}{11}}
+\headcommand {\beamer@sectionpages {1}{11}}
+\headcommand {\beamer@documentpages {11}}
+\headcommand {\gdef \inserttotalframenumber {10}}

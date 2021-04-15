@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.9.10)  15 APR 2021 21:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.9.10)  15 APR 2021 22:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1158,7 +1158,7 @@ Package pgfplots notification 'compat/show suggested version=true': you might b
 enefit from \pgfplotsset{compat=1.16} (current compat level: 1.9).
 
 (./demo.nav)
-<logo.png, id=41, 526.96875pt x 301.125pt>
+<logo.png, id=49, 526.96875pt x 301.125pt>
 File: logo.png Graphic file (type png)
 <use logo.png>
 Package pdftex.def Info: logo.png  used on input line 28.
@@ -1201,7 +1201,7 @@ File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 ) [2
 
 ]
-<image/diseases_dataset.png, id=62, 1235.61626pt x 393.47pt>
+<image/diseases_dataset.png, id=70, 1235.61626pt x 393.47pt>
 File: image/diseases_dataset.png Graphic file (type png)
 <use image/diseases_dataset.png>
 Package pdftex.def Info: image/diseases_dataset.png  used on input line 94.
@@ -1211,7 +1211,7 @@ Package pdftex.def Info: image/diseases_dataset.png  used on input line 94.
  <./image/diseases_dataset.png>] [4
 
 ]
-<image/dbms.png, id=78, 723.70375pt x 605.26125pt>
+<image/dbms.png, id=86, 723.70375pt x 605.26125pt>
 File: image/dbms.png Graphic file (type png)
 <use image/dbms.png>
 Package pdftex.def Info: image/dbms.png  used on input line 114.
@@ -1223,18 +1223,35 @@ Package pdftex.def Info: image/dbms.png  used on input line 114.
 ] [7
 
 ]
-<image/demo_ui.png, id=101, 1217.54875pt x 878.28125pt>
+<image/demo_ui.png, id=109, 1217.54875pt x 878.28125pt>
 File: image/demo_ui.png Graphic file (type png)
 <use image/demo_ui.png>
-Package pdftex.def Info: image/demo_ui.png  used on input line 151.
+Package pdftex.def Info: image/demo_ui.png  used on input line 153.
 (pdftex.def)             Requested size: 199.16928pt x 143.66382pt.
 
-Overfull \vbox (8.34946pt too high) detected at line 151
+Overfull \vbox (8.34946pt too high) detected at line 153
  []
 
 [8
 
- <./image/demo_ui.png>] [9
+ <./image/demo_ui.png>]
+<image/user_semantic_frame.png, id=118, 1441.385pt x 72.27pt>
+File: image/user_semantic_frame.png Graphic file (type png)
+<use image/user_semantic_frame.png>
+Package pdftex.def Info: image/user_semantic_frame.png  used on input line 163.
+
+(pdftex.def)             Requested size: 284.52756pt x 14.26517pt.
+ [9
+
+ <./image/user_semantic_frame.png>]
+<image/dict_vote_sympt.png, id=127, 1755.55875pt x 234.8775pt>
+File: image/dict_vote_sympt.png Graphic file (type png)
+<use image/dict_vote_sympt.png>
+Package pdftex.def Info: image/dict_vote_sympt.png  used on input line 173.
+(pdftex.def)             Requested size: 284.52756pt x 38.06499pt.
+ [10
+
+ <./image/dict_vote_sympt.png>] [11
 
 ]
 \tf@nav=\write6
@@ -1246,19 +1263,19 @@ Overfull \vbox (8.34946pt too high) detected at line 151
 \tf@snm=\write8
 \openout8 = `demo.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 159.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 159.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 181.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 181.
  (./demo.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 159.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 159.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 181.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 181.
 Package rerunfilecheck Info: File `demo.out' has not changed.
-(rerunfilecheck)             Checksum: E6BCBAF7270BE6627663C81DDAE6A331;333.
+(rerunfilecheck)             Checksum: 45AED9019F163CF3F1BCA75265A379A6;448.
  ) 
 Here is how much of TeX's memory you used:
- 32427 strings out of 481239
- 789814 string characters out of 5920377
+ 32461 strings out of 481239
+ 790396 string characters out of 5920377
  1265165 words of memory out of 5000000
- 46960 multiletter control sequences out of 15000+600000
+ 46984 multiletter control sequences out of 15000+600000
  538575 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,13n,103p,1827b,781s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1269,10 +1286,10 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist
 type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/cm-super/s
 fss1000.pfb>
-Output written on demo.pdf (9 pages, 257545 bytes).
+Output written on demo.pdf (11 pages, 325512 bytes).
 PDF statistics:
- 145 PDF objects out of 1000 (max. 8388607)
- 112 compressed objects within 2 object streams
- 29 named destinations out of 1000 (max. 500000)
- 119 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 175 PDF objects out of 1000 (max. 8388607)
+ 136 compressed objects within 2 object streams
+ 37 named destinations out of 1000 (max. 500000)
+ 145 words of extra memory for PDF output out of 10000 (max. 10000000)
 
