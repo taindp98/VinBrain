@@ -68,6 +68,10 @@ class StateTracker:
 
         self.amount_record_match = len(list_record_query)
 
+        # print('='*50)
+        # print(list_record_query)
+        # print('='*50)
+
         if self.amount_record_match == 1:
             # agent_action = {}
             self.agent_action['intent'] = 'match_found'
@@ -115,8 +119,9 @@ class StateTracker:
         if last_sympt_user_inform not in list(dict_sympt_correct_name_appear.keys()):
             list_sympt_suggest = list(dict_sympt_correct_name_appear.keys())
         else:
-            # print('='*50)
-            # print('vote appear',dict_all_sympt_appear)
+            print('='*50)
+            print('DICTIONARY VOTE SYMPTOM: ',dict_all_sympt_appear)
+            print('='*50)
             list_sympt_query = list(dict_all_sympt_appear.keys())
             for item in list_sympt_query:
                 if item not in list_sympt_user_inform and dict_all_sympt_appear[item] < self.amount_record_match:
@@ -145,7 +150,8 @@ class StateTracker:
         """
         # agent_action = {}
         
-        r = random.randint(0,1)
+        # r = random.randint(0,1)
+        r = 0
 
         if r == 0:
             # if list_sympt_suggest:

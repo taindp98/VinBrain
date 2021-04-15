@@ -14,8 +14,11 @@ app = Flask(__name__)
 CORS(app)
 
 # os.environ["MONGOLAB_URI"] = 'mongodb://localhost:27017'
+os.environ["MONGOLAB_URI"] = 'mongodb://taindp:chatbot2020@thesis-shard-00-00.bdisf.mongodb.net:27017,thesis-shard-00-01.bdisf.mongodb.net:27017,thesis-shard-00-02.bdisf.mongodb.net:27017/hcmut?ssl=true&replicaSet=atlas-12fynb-shard-0&authSource=admin&retryWrites=true&w=majority'
+
 client = pymongo.MongoClient(os.environ.get('MONGOLAB_URI'))
-database = client.vinbrain
+# database = client.vinbrain
+database = client.hcmut
 col_db = database.disease
 
 tracker = StateTracker(col_db)
@@ -34,7 +37,9 @@ def post_api_disease():
     # print(tracker.tracker_user_action)
     # print('='*50)
     user_action = tracker.gen_user_action(message)
-
+    print('='*50)
+    print("USER'S ACTION: {}".format(user_action))
+    print('='*50)
     # print("user_action",user_action)
     if user_action['intent'] == 'request':
         tracker.reset_tracker_user_action()
@@ -73,5 +78,4 @@ def post_api_disease():
 
 if __name__ == '__main__':
     # app.run()
-    app.run(host='0.0.0.0',port=12345,debug=True)
-
+    app.run(host='0.0.0.0',port=6969,debug=True)

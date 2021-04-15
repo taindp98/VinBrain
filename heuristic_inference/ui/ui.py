@@ -13,7 +13,7 @@ def home():
 @app.route("/get")
 def get_bot_response():
     userText = request.args.get('msg')
-    api_url = 'http://0.0.0.0:12345/api/disease'
+    api_url = 'http://0.0.0.0:6969/api/disease'
 
     input_data = {}
     input_data['message'] = str(userText)
