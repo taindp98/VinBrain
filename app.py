@@ -13,7 +13,7 @@ from botbuilder.core import (
     BotFrameworkAdapter,
 )
 from botbuilder.core.integration import aiohttp_error_middleware
-from botbuilder.schema import Activity, ActivityTypes
+from botbuilder.schema import Activity, ActivityTypes,ActionTypes
 
 from bot import MyBot
 from config import DefaultConfig

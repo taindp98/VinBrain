@@ -1,9 +1,15 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+import os
+import requests
+import json
 from botbuilder.core import ActivityHandler, TurnContext
 from botbuilder.schema import ChannelAccount
 import requests
+from card import create_audio_card
+from botbuilder.schema import AudioCard,AttachmentLayoutTypes
+from botbuilder.core import MessageFactory
 
 class MyBot(ActivityHandler):
     # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
@@ -44,21 +50,49 @@ class MyBot(ActivityHandler):
 
             # first_response_message = response_message.replace('\n', r'').replace(r'"',r'')
         
-        
-            audio_cURL = """
-            curl --location --request POST 'https://api-int.draid.ai/tts-service/v1/tts' \
-                --header 'Content-Type: multipart/form-data' \
-                --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg0NjIzOTEsIm5iZiI6MTYxODQ1ODc5MSwiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiY2VlZDRhMTUtNTYyNS00OTE4LTkyNzEtNzRjOTlkOTA5ZmVjIiwic3ViIjoiY2VlZDRhMTUtNTYyNS00OTE4LTkyNzEtNzRjOTlkOTA5ZmVjIiwibmFtZSI6Ikjhu5MgSG_DoG5nIE5hbSIsImdpdmVuX25hbWUiOiJOYW0iLCJlbWFpbHMiOlsidi5uYW1ob0B2aW5icmFpbi5uZXQiXSwidGZwIjoiQjJDXzFfdmJtZGEtc2lnbmluLXYyLWludCIsIm5vbmNlIjoiNDQ2MmZmNzItZWIwMC00YjAwLWJlZjItYWZlYjEzN2FkYjliIiwic2NwIjoidmJtZGEucmVhZCIsImF6cCI6ImUwNWU5NjFlLTg3NzgtNDczZS1iYjM3LTYwNjllNDI3NzMwNyIsInZlciI6IjEuMCIsImlhdCI6MTYxODQ1ODc5MX0.oF1lTp4hnMB_nvclnFcwjOC0M7gjEHqaE6OGGX3f1cI89WQZOPVo2A-Ynz48flqbIshX3r0kWA1wq7jvHmheWNDjinQXMYoQ_sQRQi8MSO6-t6BmOmwAckfFme61gKaES-pMOqCXp4PymZhMNnziP03ktKyC9pKwCM0JqvuyEb_LkabSUTdDp35BPBcLcMBgPsCT1Qtsd0EKz6-OzOo29FU5bPzMP1BmQv2zZIFvvW1HL2KzooEVnigvtyJgKHhIlXr-W85UUZcIEaev47KWkHvqOk9xlJYLtNYuLwV4YJDx2W5MhmKv3u1j976njREOnMKba6-ZD4UNp7g36CKOzw' \
-                --form 'text=%s' \
-                --form 'extension="WAV"' \
-                --form 'gender="MALE"' \
-                --form 'area="SOUTH"' \
-                --form 'language="VI"' \
-                --form 'pace="1.0"'
-            """%first_response_message
+            cwd = os.getcwd()
+            # print(cwd)
+            audio_path = os.path.join(cwd,'audio')
+            save_audio = os.path.join(audio_path,first_response_message[:5]+'.wav')
+
+            ## parse cURL
+            url = 'https://api-int.draid.ai/tts-service/v1/tts'
+            headers = {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg0Nzg3MDEsIm5iZiI6MTYxODQ3NTEwMSwiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6IjBkZDM4ZDEwLWI1YjAtNDE5Ny1hODJmLTVkOGQyY2FhYzZkYSIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg0NzUxMDF9.DaNkCtNwpBymdnKnX6lI1i_guU-KqIMEHCyEVaaj4Qgds771PArsOwDmgaV37g8TVb1BVRw1e2Z8d5OU2yAFiKZugqtWTgxXgHa6ODpVieACDacTJTG5YyPkhip8BCcUIyYQddEGpqH8wp8gZzKTGolKCeZ2x-qi6a5bI8TzJZgDnx1Y1EwXduGo3QF7-ebJrcEVAJOhWJHizSflmuqygdNJZI7vx_ySiWAGEpWiHodtu8_Eg-PVhhs4NpN9a1xwQJPjMPJ4x-o5gwSMP-HiLs_BKdiAqzmd7YKJAuB2XddrS19D8QJETeDeMlCjOCWjmYnwHaGrtN_UyKzJcPUo1A'
+            }
+            data = {
+                "text": first_response_message,
+                "extension": "WAV",
+                "gender":"MALE",
+                "area":"SOUTH",
+                "language":"VI",
+                "pace":"1.0",
+                "output": save_audio
+            }
+
+            r = requests.post(url, data=json.dumps(data), headers=headers)
+            print(r)
+            # audio_cURL = """
+            # curl --location --request POST 'https://api-int.draid.ai/tts-service/v1/tts' \
+            # --header 'Content-Type: multipart/form-data' \
+            # --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg0Nzg3MDEsIm5iZiI6MTYxODQ3NTEwMSwiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6IjBkZDM4ZDEwLWI1YjAtNDE5Ny1hODJmLTVkOGQyY2FhYzZkYSIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg0NzUxMDF9.DaNkCtNwpBymdnKnX6lI1i_guU-KqIMEHCyEVaaj4Qgds771PArsOwDmgaV37g8TVb1BVRw1e2Z8d5OU2yAFiKZugqtWTgxXgHa6ODpVieACDacTJTG5YyPkhip8BCcUIyYQddEGpqH8wp8gZzKTGolKCeZ2x-qi6a5bI8TzJZgDnx1Y1EwXduGo3QF7-ebJrcEVAJOhWJHizSflmuqygdNJZI7vx_ySiWAGEpWiHodtu8_Eg-PVhhs4NpN9a1xwQJPjMPJ4x-o5gwSMP-HiLs_BKdiAqzmd7YKJAuB2XddrS19D8QJETeDeMlCjOCWjmYnwHaGrtN_UyKzJcPUo1A' \
+            # --form 'text=%s' \
+            # --form 'extension="WAV"' \
+            # --form 'gender="MALE"' \
+            # --form 'area="SOUTH"' \
+            # --form 'language="VI"' \
+            # --form 'pace="1.0"'\
+            # --output %s
+            # """%(first_response_message,save_audio)
 
             # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
-            await turn_context.send_activity(first_response_message)
+            reply = MessageFactory.list([])
+            reply.attachment_layout = AttachmentLayoutTypes.carousel
+            reply.attachments.append(create_audio_card())
+
+            # await turn_context.send_activity(first_response_message)
+            await turn_context.send_activity(reply)
 
     async def on_members_added_activity(
         self,
