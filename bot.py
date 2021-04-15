@@ -11,14 +11,26 @@ class MyBot(ActivityHandler):
     async def on_message_activity(self, turn_context: TurnContext):
         ## custom
         process_url = 'http://e2ebot.azurewebsites.net/api/convers-manager'
-        input_data = str(turn_context.activity.text)
-        response_object = requests.post(url=process_url, json=input_data)
+        input_text = str(turn_context.activity.text)
+        input_id = str(turn_context.activity.id)
+        ## frame input 
+        dict_input = {}
+        dict_input['message'] = input_text
+        dict_input['user_id'] = input_id
+
+        response_object = requests.post(url=process_url, json=dict_input)
         response_object_json = response_object.json()
 
-        response_message = response_object_json['message']
-        list_mess_response = [item.replace('\n', r'').replace(r'"',r'') for item in response_message]
+        print('='*50)
+        print(response_object_json)
 
-        first_response_message = list_mess_response[0]
+        response_message = response_object_json['message']
+        if type(response_message) is list:
+            list_mess_response = [item.replace('\n', r'').replace(r'"',r'') for item in response_message]
+            first_response_message = list_mess_response[0]
+        else:
+            first_response_message = response_message.replace('\n', r'').replace(r'"',r'')
+        
 
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
         await turn_context.send_activity(first_response_message)
