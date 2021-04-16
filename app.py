@@ -16,9 +16,9 @@ from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes,ActionTypes
 from botbuilder.core import MemoryStorage,UserState,ConversationState
 from dialogs import MainDialog
-# from bot import MyBot
+from bot import MyBot
 from config import DefaultConfig
-from bots import RichCardsBot
+# from bots import RichCardsBot
 
 CONFIG = DefaultConfig()
 
@@ -57,13 +57,13 @@ async def on_error(context: TurnContext, error: Exception):
 
 
 ADAPTER.on_turn_error = on_error
-MEMORY = MemoryStorage()
-USER_STATE = UserState(MEMORY)
-CONVERSATION_STATE = ConversationState(MEMORY)
-DIALOG = MainDialog()
+# MEMORY = MemoryStorage()
+# USER_STATE = UserState(MEMORY)
+# CONVERSATION_STATE = ConversationState(MEMORY)
+# DIALOG = MainDialog()
 # Create the Bot
-# BOT = MyBot()
-BOT = RichCardsBot(CONVERSATION_STATE, USER_STATE, DIALOG)
+BOT = MyBot()
+# BOT = RichCardsBot(CONVERSATION_STATE, USER_STATE, DIALOG)
 
 
 # Listen for incoming requests on /api/messages

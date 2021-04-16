@@ -7,7 +7,7 @@ import json
 from botbuilder.core import ActivityHandler, TurnContext
 from botbuilder.schema import ChannelAccount
 import requests
-# from card import create_audio_card
+from audio_card import create_audio_card
 from botbuilder.schema import AudioCard,AttachmentLayoutTypes
 from botbuilder.core import MessageFactory
 
@@ -89,7 +89,10 @@ class MyBot(ActivityHandler):
             # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
             reply = MessageFactory.list([])
             reply.attachment_layout = AttachmentLayoutTypes.carousel
-            reply.attachments.append(create_audio_card())
+
+            audio_url_custom = 'https://1drv.ms/u/s!AvgPPwEWTreweCuzIqgIJ5yZx2Q?e=Vgz9Uj'
+
+            reply.attachments.append(create_audio_card(audio_url_custom))
 
             # await turn_context.send_activity(first_response_message)
             await turn_context.send_activity(reply)
