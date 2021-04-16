@@ -83,15 +83,16 @@ class MyBot(ActivityHandler):
             # print("stdout",stdout)
             # print("stderr",stderr)
             # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
-            reply = MessageFactory.list([])
-            reply.attachment_layout = AttachmentLayoutTypes.carousel
+            # reply = MessageFactory.list([])
+            # reply.attachment_layout = AttachmentLayoutTypes.carousel
 
             # audio_url_custom = 'https://1drv.ms/u/s!AvgPPwEWTreweCuzIqgIJ5yZx2Q?e=Vgz9Uj'
             list_audio = glob(os.path.join(audio_path,'*.wav'))
-            audio_url_custom = sorted(list_audio,reverse=True)[0]
+            # audio_url_custom = sorted(list_audio,reverse=True)[0]
+            audio_url_custom = "https://wavlist.com/wav/apli-airconditioner.wav"
 
             print('audio_url_custom',audio_url_custom)
-            reply.attachments.append(create_audio_card(audio_url_custom))
+            reply = MessageFactory.attachment(create_audio_card(audio_url_custom))
 
             # await turn_context.send_activity(first_response_message)
             await turn_context.send_activity(reply)
