@@ -90,7 +90,8 @@ class MyBot(ActivityHandler):
             reply = MessageFactory.list([])
             reply.attachment_layout = AttachmentLayoutTypes.carousel
 
-            audio_url_custom = 'https://1drv.ms/u/s!AvgPPwEWTreweCuzIqgIJ5yZx2Q?e=Vgz9Uj'
+            # audio_url_custom = 'https://1drv.ms/u/s!AvgPPwEWTreweCuzIqgIJ5yZx2Q?e=Vgz9Uj'
+            audio_url_custom = './audio/test.wav'
 
             reply.attachments.append(create_audio_card(audio_url_custom))
 
