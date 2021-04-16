@@ -1,15 +1,19 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-
+import shlex
 import os
-import requests
+from datetime import datetime
 import json
+import subprocess
 from botbuilder.core import ActivityHandler, TurnContext
 from botbuilder.schema import ChannelAccount
 import requests
 from audio_card import create_audio_card
 from botbuilder.schema import AudioCard,AttachmentLayoutTypes
 from botbuilder.core import MessageFactory
+from glob import glob
+
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 class MyBot(ActivityHandler):
     # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
@@ -53,46 +57,40 @@ class MyBot(ActivityHandler):
             cwd = os.getcwd()
             # print(cwd)
             audio_path = os.path.join(cwd,'audio')
-            save_audio = os.path.join(audio_path,first_response_message[:5]+'.wav')
+            now = datetime.now()
+            date_time = now.strftime("%m_%d_%Y_%H_%M_%S")
+            # date_time
 
-            ## parse cURL
-            url = 'https://api-int.draid.ai/tts-service/v1/tts'
-            headers = {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg0Nzg3MDEsIm5iZiI6MTYxODQ3NTEwMSwiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6IjBkZDM4ZDEwLWI1YjAtNDE5Ny1hODJmLTVkOGQyY2FhYzZkYSIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg0NzUxMDF9.DaNkCtNwpBymdnKnX6lI1i_guU-KqIMEHCyEVaaj4Qgds771PArsOwDmgaV37g8TVb1BVRw1e2Z8d5OU2yAFiKZugqtWTgxXgHa6ODpVieACDacTJTG5YyPkhip8BCcUIyYQddEGpqH8wp8gZzKTGolKCeZ2x-qi6a5bI8TzJZgDnx1Y1EwXduGo3QF7-ebJrcEVAJOhWJHizSflmuqygdNJZI7vx_ySiWAGEpWiHodtu8_Eg-PVhhs4NpN9a1xwQJPjMPJ4x-o5gwSMP-HiLs_BKdiAqzmd7YKJAuB2XddrS19D8QJETeDeMlCjOCWjmYnwHaGrtN_UyKzJcPUo1A'
-            }
-            data = {
-                "text": first_response_message,
-                "extension": "WAV",
-                "gender":"MALE",
-                "area":"SOUTH",
-                "language":"VI",
-                "pace":"1.0",
-                "output": save_audio
-            }
+            save_audio = os.path.join(audio_path,str(date_time)+'.wav')
 
-            r = requests.post(url, data=json.dumps(data), headers=headers)
-            print(r)
-            # audio_cURL = """
-            # curl --location --request POST 'https://api-int.draid.ai/tts-service/v1/tts' \
-            # --header 'Content-Type: multipart/form-data' \
-            # --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg0Nzg3MDEsIm5iZiI6MTYxODQ3NTEwMSwiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6IjBkZDM4ZDEwLWI1YjAtNDE5Ny1hODJmLTVkOGQyY2FhYzZkYSIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg0NzUxMDF9.DaNkCtNwpBymdnKnX6lI1i_guU-KqIMEHCyEVaaj4Qgds771PArsOwDmgaV37g8TVb1BVRw1e2Z8d5OU2yAFiKZugqtWTgxXgHa6ODpVieACDacTJTG5YyPkhip8BCcUIyYQddEGpqH8wp8gZzKTGolKCeZ2x-qi6a5bI8TzJZgDnx1Y1EwXduGo3QF7-ebJrcEVAJOhWJHizSflmuqygdNJZI7vx_ySiWAGEpWiHodtu8_Eg-PVhhs4NpN9a1xwQJPjMPJ4x-o5gwSMP-HiLs_BKdiAqzmd7YKJAuB2XddrS19D8QJETeDeMlCjOCWjmYnwHaGrtN_UyKzJcPUo1A' \
-            # --form 'text=%s' \
-            # --form 'extension="WAV"' \
-            # --form 'gender="MALE"' \
-            # --form 'area="SOUTH"' \
-            # --form 'language="VI"' \
-            # --form 'pace="1.0"'\
-            # --output %s
-            # """%(first_response_message,save_audio)
-
+            audio_cURL = """
+            curl --location --request POST 'https://api-int.draid.ai/tts-service/v1/tts' \
+            --header 'Content-Type: multipart/form-data' \
+            --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg1Njc2MTUsIm5iZiI6MTYxODU2NDAxNSwiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6ImY3YmVmMGE0LTU0NDgtNGFhYS04NzJkLWRhNWRkODFjNjM3YSIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg1NjQwMTV9.hmjZBm3Sq8IQLL6Mi1SL_UI3CLc8YbL4jZ0IZBXEc3FoJvHrQ6qWZwuZWRxfo2nKUgnacTs2Ziqa5ti-zNCd9Yc-y4OOOjBJJGZ2ieAo8PVZbwES0EcWCtLhjluq9mX_MFVwcTkfzM6gYtaH6g075VM4-k90AiNEi83Gsc1LHXOIiGErb4cKY9WQUsSjsm1JDObxMiJGtaIDIbiMq1y_hssUpSGvYS6GxK1kX1ncXqtznd_jq89YY6XBevE9Kv481EGEHF9aWSF_uAZYxPRMjJ-D9rtUDsXwK3tcCdHMgzvipxhhJiSc-0sEBHm15rVqPYRNZVf-qrSgg1msbZQemQ'\
+            --form 'text=%s' \
+            --form 'extension="WAV"' \
+            --form 'gender="MALE"' \
+            --form 'area="SOUTH"' \
+            --form 'language="VI"' \
+            --form 'pace="1.0"'\
+            --output %s
+            """%(first_response_message,save_audio)
+            # print(os.system(audio_cURL))
+            args = shlex.split(audio_cURL)
+            process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, stderr = process.communicate()
+            # print("save_audio",save_audio)
+            # print("stdout",stdout)
+            # print("stderr",stderr)
             # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
             reply = MessageFactory.list([])
             reply.attachment_layout = AttachmentLayoutTypes.carousel
 
             # audio_url_custom = 'https://1drv.ms/u/s!AvgPPwEWTreweCuzIqgIJ5yZx2Q?e=Vgz9Uj'
-            audio_url_custom = './audio/test.wav'
+            list_audio = glob(os.path.join(audio_path,'*.wav'))
+            audio_url_custom = sorted(list_audio,reverse=True)[0]
 
+            print('audio_url_custom',audio_url_custom)
             reply.attachments.append(create_audio_card(audio_url_custom))
 
             # await turn_context.send_activity(first_response_message)
