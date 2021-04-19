@@ -54,7 +54,8 @@ class MyBot(ActivityHandler):
 
             # first_response_message = response_message.replace('\n', r'').replace(r'"',r'')
         
-            cwd = os.getcwd()
+            # cwd = os.getcwd()
+            cwd = os.path.dirname(__file__)
             # print(cwd)
             audio_path = os.path.join(cwd,'audio')
             now = datetime.now()
@@ -66,7 +67,7 @@ class MyBot(ActivityHandler):
             audio_cURL = """
             curl --location --request POST 'https://api-int.draid.ai/tts-service/v1/tts' \
             --header 'Content-Type: multipart/form-data' \
-            --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg1Njc2MTUsIm5iZiI6MTYxODU2NDAxNSwiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6ImY3YmVmMGE0LTU0NDgtNGFhYS04NzJkLWRhNWRkODFjNjM3YSIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg1NjQwMTV9.hmjZBm3Sq8IQLL6Mi1SL_UI3CLc8YbL4jZ0IZBXEc3FoJvHrQ6qWZwuZWRxfo2nKUgnacTs2Ziqa5ti-zNCd9Yc-y4OOOjBJJGZ2ieAo8PVZbwES0EcWCtLhjluq9mX_MFVwcTkfzM6gYtaH6g075VM4-k90AiNEi83Gsc1LHXOIiGErb4cKY9WQUsSjsm1JDObxMiJGtaIDIbiMq1y_hssUpSGvYS6GxK1kX1ncXqtznd_jq89YY6XBevE9Kv481EGEHF9aWSF_uAZYxPRMjJ-D9rtUDsXwK3tcCdHMgzvipxhhJiSc-0sEBHm15rVqPYRNZVf-qrSgg1msbZQemQ'\
+            --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg4MzQwMzcsIm5iZiI6MTYxODgzMDQzNywiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6ImUwZjBiNjQyLTlkZTktNDA1NS05Y2YyLTYzZDJiYjNkMmE3NCIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg4MzA0Mzd9.DtVMdCoWflsHJpKiJIGBs2PDzp4-J66M4VEucQmAEm34Tz-csIyGxl8JWY6ExOLvUd-PDZ_C6rf8l6sJJjxeINi3QYYV9uYwIphDQbWTAnWJXW09VKVKg2JW1M0FyH93a3SiYGmhAcx6Pl46z8AlOxAZaIjhSvxqBrl07Hp0MBe7DNv9ZCReUrcfOQ1y2ZuUCBgs9BywgtgFswMKa_SRRVq1cRUtj4646C_RAnYUcCtEszJuv5GEA87WNPcL71YaxX1B4jaUMHa-zq-20L_wZC7XHiJ5ykGeZKQE9oZ_-O1wWf9Ps1_fVW_qqUgm48h8dibxQIPEnavUEyLpTPuNBg'\
             --form 'text=%s' \
             --form 'extension="WAV"' \
             --form 'gender="MALE"' \
@@ -80,6 +81,7 @@ class MyBot(ActivityHandler):
             process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
             # print("save_audio",save_audio)
+            # print(os.path.dirname(__file__))
             # print("stdout",stdout)
             # print("stderr",stderr)
             # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
@@ -88,10 +90,10 @@ class MyBot(ActivityHandler):
 
             # audio_url_custom = 'https://1drv.ms/u/s!AvgPPwEWTreweCuzIqgIJ5yZx2Q?e=Vgz9Uj'
             list_audio = glob(os.path.join(audio_path,'*.wav'))
-            # audio_url_custom = sorted(list_audio,reverse=True)[0]
-            audio_url_custom = "https://wavlist.com/wav/apli-airconditioner.wav"
+            audio_url_custom = sorted(list_audio,reverse=True)[0]
+            # audio_url_custom = "https://wavlist.com/wav/apli-airconditioner.wav"
 
-            print('audio_url_custom',audio_url_custom)
+            # print('audio_url_custom',audio_url_custom)
             reply = MessageFactory.attachment(create_audio_card(audio_url_custom))
 
             # await turn_context.send_activity(first_response_message)
