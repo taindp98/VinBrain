@@ -80,7 +80,7 @@ class MyBot(ActivityHandler):
             args = shlex.split(audio_cURL)
             process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
-            # print("save_audio",save_audio)
+            print("audio_path",audio_path)
             # print(os.path.dirname(__file__))
             # print("stdout",stdout)
             # print("stderr",stderr)
