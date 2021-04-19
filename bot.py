@@ -55,9 +55,10 @@ class MyBot(ActivityHandler):
             # first_response_message = response_message.replace('\n', r'').replace(r'"',r'')
         
             # cwd = os.getcwd()
-            cwd = os.path.dirname(__file__)
+            # cwd = os.path.dirname(__file__)
+            # cwd = app.instance_path
             # print(cwd)
-            audio_path = os.path.join(cwd,'audio')
+            audio_path = os.path.abspath(os.path.join(cwd,'audio'))
             now = datetime.now()
             date_time = now.strftime("%m_%d_%Y_%H_%M_%S")
             # date_time
