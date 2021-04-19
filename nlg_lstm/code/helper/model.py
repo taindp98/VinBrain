@@ -9,6 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as Fs
 
 import os
+from utils import get_batches
 
 class WordLSTM(nn.Module):
     
