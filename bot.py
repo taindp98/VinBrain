@@ -21,7 +21,7 @@ class MyBot(ActivityHandler):
     async def on_message_activity(self, turn_context: TurnContext):
         ## custom
         process_url = 'http://e2ebot.azurewebsites.net/api/convers-manager'
-        api_storage_url = 'http://blobstorage.azurewebsites.net/api/storage'
+        api_storage_url = 'https://91f9d3998016.ngrok.io/api/storage'
         # process_url = 'http://0.0.0.0:6969/api/convers-manager'
         input_text = str(turn_context.activity.text)
         input_id = str(turn_context.activity.conversation.id)
@@ -69,7 +69,7 @@ class MyBot(ActivityHandler):
             audio_cURL = """
             curl --location --request POST 'https://api-int.draid.ai/tts-service/v1/tts' \
             --header 'Content-Type: multipart/form-data' \
-            --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg4ODg4NzQsIm5iZiI6MTYxODg4NTI3NCwiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6IjI4MDA0ZDQ3LTJmOTktNDVhNC1hNjQ5LTI1MGRmY2FkNmUzZiIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg4ODUyNzR9.NNitfp06FOoFIL63cQ_gAtjFRy7CUHQJbFC9k9sZ0zl3OQ-SHk44yTCKm8GDMRhb5KQnM7VNFIgQRPE8VQLv9CYM6fEcnFEwpIPkrM9F50NWEDy2aSCidEvcaj_n4W7HkQ3XxK60U_TfI50YusF2nwijbt8vwCTvdOdaXPBbkPQ90uhxyUp-rZaKgG1m-1Gkp6P4ACgunLN2Jr22F47BFnOsCbhoKiGYgu_EMb5_hSWYqI1ga4h_b7B-nzFMWeoPKT4mLc_pbmnNtAvfnlQydkoJigfaWroPlE39QN32xbsmovrMigvG7vJBYJVeOxEpz3nDue54haZTvPKD0clgqw'\
+            --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg5MDU2MzcsIm5iZiI6MTYxODkwMjAzNywiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6ImU3NmQ5MWM3LTk1ZTgtNDM1ZS04MzZhLWJhMWY0MWZiOWQyOCIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg5MDIwMzd9.qiEsgov3zvxtfH4XFZ_J9T-5x4jVWNXFRzuGOH8qLXxCd0Nt4Rt-qTGU2UWT-qq3duvyxQQ37zt-AC_XZAocAIqNshoWx-AwUQ9eeVp44rljYgXrUdTgFJj-sJsOs0OS74DQz2qqgu2c9eWyjpLXHGgu7cyLeKms08FeaXaW1urDlRe8dZcFOXyFyBHwHi9Qkz4fuaDHURWI5pa0P1RtO3XTkWPuTYiRbv0ll0qGFwSy73ijkvZ-73kuJW2CwgJ6lSBiIDFJS6i867Fr-EF4vsgBVMqx1YFcG6q73__U1WgRj0z95B-53mEpR5e52b4khtkE08fQ0YBlFqUGvf5xmQ'\
             --form 'text=%s' \
             --form 'extension="WAV"' \
             --form 'gender="MALE"' \
