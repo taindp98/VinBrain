@@ -12,7 +12,6 @@ from audio_card import create_audio_card
 from botbuilder.schema import AudioCard,AttachmentLayoutTypes
 from botbuilder.core import MessageFactory
 from glob import glob
-# from blob import upload_storage
 
 # from requests_toolbelt.multipart.encoder import MultipartEncoder
 
