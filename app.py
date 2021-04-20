@@ -17,9 +17,14 @@ from botbuilder.schema import Activity, ActivityTypes,ActionTypes
 from botbuilder.core import MemoryStorage,UserState,ConversationState
 from dialogs import MainDialog
 from bot import MyBot
+
+
 from config import DefaultConfig
 # from bots import RichCardsBot
 
+# from dialogs.root_dialog import RootDialog
+# from bots import ScaleoutBot
+# from store.blob_store import BlobStore
 CONFIG = DefaultConfig()
 
 # Create adapter.
@@ -58,11 +63,14 @@ async def on_error(context: TurnContext, error: Exception):
 
 ADAPTER.on_turn_error = on_error
 # MEMORY = MemoryStorage()
+# STORAGE = BlobStore(CONFIG.BLOB_ACCOUNT_NAME, CONFIG.BLOB_KEY, CONFIG.BLOB_CONTAINER)
 # USER_STATE = UserState(MEMORY)
 # CONVERSATION_STATE = ConversationState(MEMORY)
 # DIALOG = MainDialog()
+# DIALOG = RootDialog()
 # Create the Bot
 BOT = MyBot()
+# BOT = ScaleoutBot(STORAGE, DIALOG)
 # BOT = RichCardsBot(CONVERSATION_STATE, USER_STATE, DIALOG)
 
 
@@ -93,6 +101,5 @@ APP.router.add_post("/api/messages", messages)
 if __name__ == "__main__":
     try:
         web.run_app(APP, host="localhost", port=CONFIG.PORT)
-        # web.run_app(APP, host="https://smartassistantv1.azurewebsites.net", port=CONFIG.PORT)
     except Exception as error:
         raise error

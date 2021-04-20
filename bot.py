@@ -55,7 +55,7 @@ class MyBot(ActivityHandler):
             # first_response_message = response_message.replace('\n', r'').replace(r'"',r'')
         
             # cwd = os.getcwd()
-            # cwd = os.path.dirname(__file__)
+            cwd = os.path.dirname(__file__)
             # cwd = app.instance_path
             # print(cwd)
             audio_path = os.path.abspath(os.path.join(cwd,'audio'))
@@ -89,11 +89,10 @@ class MyBot(ActivityHandler):
             # reply = MessageFactory.list([])
             # reply.attachment_layout = AttachmentLayoutTypes.carousel
 
-            # audio_url_custom = 'https://1drv.ms/u/s!AvgPPwEWTreweCuzIqgIJ5yZx2Q?e=Vgz9Uj'
-            audio_url_custom = 'https://1drv.ms/u/s!AvgPPwEWTreweX9XKnvPFWpIpNs?e=te7P7D'
             list_audio = glob(os.path.join(audio_path,'*.wav'))
             # audio_url_custom = sorted(list_audio,reverse=True)[0]
             # audio_url_custom = "https://wavlist.com/wav/apli-airconditioner.wav"
+            audio_url_custom = 'https://storage1011.blob.core.windows.net/audio/04_19_2021_18_22_02.wav'
 
             # print('audio_url_custom',audio_url_custom)
             reply = MessageFactory.attachment(create_audio_card(audio_url_custom))
