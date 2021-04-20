@@ -1,5 +1,5 @@
 import os, uuid
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, __version__
+from azure.storage.blob import BlobServiceClient, __version__
 def upload_storage(local_path,audio_name):
     try:
         print("Azure Blob Storage v" + __version__ + " - Python quickstart sample")
