@@ -12,7 +12,7 @@ from audio_card import create_audio_card
 from botbuilder.schema import AudioCard,AttachmentLayoutTypes
 from botbuilder.core import MessageFactory
 from glob import glob
-from blob import upload_storage
+# from blob import upload_storage
 
 # from requests_toolbelt.multipart.encoder import MultipartEncoder
 
@@ -22,6 +22,7 @@ class MyBot(ActivityHandler):
     async def on_message_activity(self, turn_context: TurnContext):
         ## custom
         process_url = 'http://e2ebot.azurewebsites.net/api/convers-manager'
+        api_storage_url = 'http://0.0.0.0:6969/api/storage'
         # process_url = 'http://0.0.0.0:6969/api/convers-manager'
         input_text = str(turn_context.activity.text)
         input_id = str(turn_context.activity.conversation.id)
@@ -83,7 +84,13 @@ class MyBot(ActivityHandler):
             process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
 
-            upload_storage(audio_path,date_time)
+            # upload_storage(audio_path,date_time)
+
+            info_storage = {}
+            info_storage['local_path'] = audio_path
+            info_storage['audio_name'] = date_time
+
+            r = requests.post(url=api_storage_url, json=info_storage)
 
             print("audio_path",audio_path)
             # print(os.path.dirname(__file__))
