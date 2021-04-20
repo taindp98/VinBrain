@@ -1,3 +1,4 @@
+aiohttp
 botbuilder-core==4.13.0
 botbuilder-integration-aiohttp==4.13.0
 botbuilder-schema==4.13.0
