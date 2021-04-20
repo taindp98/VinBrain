@@ -15,7 +15,7 @@ from botbuilder.core import (
 from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes,ActionTypes
 from botbuilder.core import MemoryStorage,UserState,ConversationState
-from dialogs import MainDialog
+# from dialogs import MainDialog
 from bot import MyBot
 
 
