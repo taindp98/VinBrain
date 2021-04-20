@@ -21,7 +21,7 @@ class MyBot(ActivityHandler):
     async def on_message_activity(self, turn_context: TurnContext):
         ## custom
         process_url = 'http://e2ebot.azurewebsites.net/api/convers-manager'
-        api_storage_url = 'https://cceb1d675dcf.ngrok.io/api/storage'
+        api_storage_url = 'https://4fdedfe50452.ngrok.io/api/storage'
         # process_url = 'http://0.0.0.0:6969/api/convers-manager'
         input_text = str(turn_context.activity.text)
         input_id = str(turn_context.activity.conversation.id)
@@ -88,7 +88,7 @@ class MyBot(ActivityHandler):
             info_storage = {}
             info_storage['text'] = first_response_message
             # info_storage['local_path'] = audio_path
-            # info_storage['audio_name'] = date_time
+            info_storage['audio_name'] = date_time
 
             r = requests.post(url=api_storage_url, json=info_storage)
 
