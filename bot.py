@@ -14,7 +14,7 @@ from botbuilder.core import MessageFactory
 from glob import glob
 from blob import upload_storage
 
-from requests_toolbelt.multipart.encoder import MultipartEncoder
+# from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 class MyBot(ActivityHandler):
     # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
