@@ -12,6 +12,7 @@ from audio_card import create_audio_card
 from botbuilder.schema import AudioCard,AttachmentLayoutTypes
 from botbuilder.core import MessageFactory
 from glob import glob
+from blob import upload_storage
 
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
@@ -68,7 +69,7 @@ class MyBot(ActivityHandler):
             audio_cURL = """
             curl --location --request POST 'https://api-int.draid.ai/tts-service/v1/tts' \
             --header 'Content-Type: multipart/form-data' \
-            --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg4MzQwMzcsIm5iZiI6MTYxODgzMDQzNywiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6ImUwZjBiNjQyLTlkZTktNDA1NS05Y2YyLTYzZDJiYjNkMmE3NCIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg4MzA0Mzd9.DtVMdCoWflsHJpKiJIGBs2PDzp4-J66M4VEucQmAEm34Tz-csIyGxl8JWY6ExOLvUd-PDZ_C6rf8l6sJJjxeINi3QYYV9uYwIphDQbWTAnWJXW09VKVKg2JW1M0FyH93a3SiYGmhAcx6Pl46z8AlOxAZaIjhSvxqBrl07Hp0MBe7DNv9ZCReUrcfOQ1y2ZuUCBgs9BywgtgFswMKa_SRRVq1cRUtj4646C_RAnYUcCtEszJuv5GEA87WNPcL71YaxX1B4jaUMHa-zq-20L_wZC7XHiJ5ykGeZKQE9oZ_-O1wWf9Ps1_fVW_qqUgm48h8dibxQIPEnavUEyLpTPuNBg'\
+            --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL3ZiaW50LmIyY2xvZ2luLmNvbS84NTA4ZDM0NC05MzJjLTQ0NGEtYjdkOC1mNDMyMTM0ZTZiMDEvdjIuMC8iLCJleHAiOjE2MTg4ODg4NzQsIm5iZiI6MTYxODg4NTI3NCwiYXVkIjoiZTA1ZTk2MWUtODc3OC00NzNlLWJiMzctNjA2OWU0Mjc3MzA3Iiwib2lkIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwic3ViIjoiZDVjNDllOGEtODQ5ZS00ZTg3LWFlNWQtZWViZWYwYmUxNGIxIiwibmFtZSI6Ik5ndXnhu4VuIETGsMahbmcgUGjDumMgVMOgaSIsImdpdmVuX25hbWUiOiJQaMO6YyBUw6BpIiwiZW1haWxzIjpbInYudGFpbmdAdmluYnJhaW4ubmV0Il0sInRmcCI6IkIyQ18xX3ZibWRhLXNpZ25pbi12Mi1pbnQiLCJub25jZSI6IjI4MDA0ZDQ3LTJmOTktNDVhNC1hNjQ5LTI1MGRmY2FkNmUzZiIsInNjcCI6InZibWRhLnJlYWQiLCJhenAiOiJlMDVlOTYxZS04Nzc4LTQ3M2UtYmIzNy02MDY5ZTQyNzczMDciLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2MTg4ODUyNzR9.NNitfp06FOoFIL63cQ_gAtjFRy7CUHQJbFC9k9sZ0zl3OQ-SHk44yTCKm8GDMRhb5KQnM7VNFIgQRPE8VQLv9CYM6fEcnFEwpIPkrM9F50NWEDy2aSCidEvcaj_n4W7HkQ3XxK60U_TfI50YusF2nwijbt8vwCTvdOdaXPBbkPQ90uhxyUp-rZaKgG1m-1Gkp6P4ACgunLN2Jr22F47BFnOsCbhoKiGYgu_EMb5_hSWYqI1ga4h_b7B-nzFMWeoPKT4mLc_pbmnNtAvfnlQydkoJigfaWroPlE39QN32xbsmovrMigvG7vJBYJVeOxEpz3nDue54haZTvPKD0clgqw'\
             --form 'text=%s' \
             --form 'extension="WAV"' \
             --form 'gender="MALE"' \
@@ -81,6 +82,9 @@ class MyBot(ActivityHandler):
             args = shlex.split(audio_cURL)
             process = subprocess.Popen(args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
+
+            upload_storage(audio_path,date_time)
+
             print("audio_path",audio_path)
             # print(os.path.dirname(__file__))
             # print("stdout",stdout)
@@ -89,10 +93,13 @@ class MyBot(ActivityHandler):
             # reply = MessageFactory.list([])
             # reply.attachment_layout = AttachmentLayoutTypes.carousel
 
-            list_audio = glob(os.path.join(audio_path,'*.wav'))
+            # list_audio = glob(os.path.join(audio_path,'*.wav'))
             # audio_url_custom = sorted(list_audio,reverse=True)[0]
             # audio_url_custom = "https://wavlist.com/wav/apli-airconditioner.wav"
-            audio_url_custom = 'https://storage1011.blob.core.windows.net/audio/04_19_2021_18_22_02.wav'
+
+            url_blob = 'https://storage1011.blob.core.windows.net/audio/'
+
+            audio_url_custom = url_blob + date_time + '.wav'
 
             # print('audio_url_custom',audio_url_custom)
             reply = MessageFactory.attachment(create_audio_card(audio_url_custom))
