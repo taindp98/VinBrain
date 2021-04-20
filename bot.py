@@ -21,7 +21,7 @@ class MyBot(ActivityHandler):
     async def on_message_activity(self, turn_context: TurnContext):
         ## custom
         process_url = 'http://e2ebot.azurewebsites.net/api/convers-manager'
-        api_storage_url = 'https://c8c2195b3b5a.ngrok.io/api/storage'
+        api_storage_url = 'https://cceb1d675dcf.ngrok.io/api/storage'
         # process_url = 'http://0.0.0.0:6969/api/convers-manager'
         input_text = str(turn_context.activity.text)
         input_id = str(turn_context.activity.conversation.id)
