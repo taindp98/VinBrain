@@ -1,0 +1,64 @@
+1621582131038	geckodriver	INFO	Listening on 127.0.0.1:50419
+1621582131044	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilencgFP5"
+1621582131805	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1621582134529	Marionette	INFO	Listening on port 44521
+1621582134611	Marionette	WARN	TLS certificate errors will be ignored for this session
+1621582143996	Marionette	INFO	Stopped listening on port 44521
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+1621582369005	geckodriver	INFO	Listening on 127.0.0.1:52047
+1621582369015	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile0UerES"
+1621582369647	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1621582372293	Marionette	INFO	Listening on port 45667
+1621582372347	Marionette	WARN	TLS certificate errors will be ignored for this session
+1621582381573	Marionette	INFO	Stopped listening on port 45667
+1621582581397	geckodriver	INFO	Listening on 127.0.0.1:43049
+1621582581403	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilePFd7xZ"
+1621582582101	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1621582585042	Marionette	INFO	Listening on port 38859
+1621582585147	Marionette	WARN	TLS certificate errors will be ignored for this session
+1621582590854	Marionette	INFO	Stopped listening on port 38859
+1621582718559	geckodriver	INFO	Listening on 127.0.0.1:44473
+1621582718564	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilegZ4jvN"
+1621582719174	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1621582721812	Marionette	INFO	Listening on port 41935
+1621582721907	Marionette	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+Exiting due to channel error.
+1621582999750	geckodriver	INFO	Listening on 127.0.0.1:35257
+1621582999757	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileiinmYM"
+1621583000365	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1621583002942	Marionette	INFO	Listening on port 33765
+1621583002988	Marionette	WARN	TLS certificate errors will be ignored for this session
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1621585724778	geckodriver	INFO	Listening on 127.0.0.1:56943
+1621585725786	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile7jBYMN"
+1621585726671	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1621585729752	Marionette	INFO	Listening on port 38699
+1621585729827	Marionette	WARN	TLS certificate errors will be ignored for this session
+1621585783987	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:237:19
+TimedPromise@chrome://marionette/content/sync.js:222:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:431:10
+webdriverClickElement@chrome://marionette/content/interaction.js:179:31
+1621585808242	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:237:19
+TimedPromise@chrome://marionette/content/sync.js:222:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:431:10
+webdriverClickElement@chrome://marionette/content/interaction.js:179:31
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+Exiting due to channel error.
